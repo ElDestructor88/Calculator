@@ -1,47 +1,53 @@
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        try {
+            int result = calculate(input);
+            System.out.println(result);
+        } catch (Exception e) {
+            System.out.println("throws Exception");
+        }
+    }
 
-        System.out.print("Пожалуйста, представьтесь: ");
-        String username = scan.nextLine();
-        System.out.println("Здравствуйте, " + username);
+    public static int calculate(String input) throws Exception {
+        String[] parts = input.split(" ");
+        if (parts.length != 3) {
+            throw new Exception("Invalid input format");
+        }
 
-        System.out.print("Введите первое число: ");
-        int num1 = scan.nextInt();
+        int a;
+        int b;
+        try {
+            a = Integer.parseInt(parts[0]);
+            b = Integer.parseInt(parts[2]);
+        } catch (NumberFormatException e) {
+            throw new Exception("Invalid number format");
+        }
 
-        System.out.print("Введите второе число: ");
-        int num2 = scan.nextInt();
+        if (a < 1 || a > 10 || b < 1 || b > 10) {
+            throw new Exception("Numbers must be between 1 and 10");
+        }
 
-        System.out.println("Выберите алгебраическое действие: +, -, *, /;");
-        String action = scan.nextLine();
-        action = scan.nextLine();
-        int res;
+        String operator = parts[1];
 
-        switch (action){
-
+        switch (operator) {
             case "+":
-                res = num1 + num2;
-                System.out.println("Результат: " + res);
-                break;
+                return a + b;
             case "-":
-                res = num1 - num2;
-                System.out.println("Результат: " + res);
-                break;
+                return a - b;
             case "*":
-                res = num1 * num2;
-                System.out.println("Результат: " + res);
-                break;
+                return a * b;
             case "/":
-                if (num2 == 0)
-                System.out.println("Недопустимый делитель!");
-                else {
-                    res = num1 / num2;
-                    System.out.println("Результат: " + res);
-                break;
+                if (b == 0) {
+                    throw new Exception("Division by zero");
                 }
-
+                return a / b;
+            default:
+                throw new Exception("Invalid operator");
         }
     }
 }
